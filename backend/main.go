@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	_ "sort"
 )
 
 func main()  {
-fmt.Println("this is main")
+	str := "hello world"
+	data := []byte(str)
+	fmt.Println(data)
 
 
 }
