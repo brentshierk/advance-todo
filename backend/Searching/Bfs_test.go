@@ -4,6 +4,6 @@ import (
 	"testing"
 )
 
-func TestJumpSearch(t *testing.T) {
+func TestBfs(t *testing.T) {
 
 }

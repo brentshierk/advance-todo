@@ -1,0 +1,5 @@
+package Searching
+
+func Bfs() {
+
+}
