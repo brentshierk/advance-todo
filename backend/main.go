@@ -1,22 +1,17 @@
 package main
 
 import (
+	"backend/router"
 	"fmt"
 	"log"
 	"net/http"
-	_ "sort"
+
 )
 
 func main()  {
-	fs := http.FileServer(http.Dir("../to-do/dist"))
-	http.Handle("/", fs)
-
-	// Start the server.
-	fmt.Println("Server listening on port 3000")
-	log.Panic(
-		http.ListenAndServe(":3000", nil),
-	)
-
+	r := router.Router()
+	fmt.Println("Starting server on the port 8080...")
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
 func homePageHandler(w http.ResponseWriter, r *http.Request) {
