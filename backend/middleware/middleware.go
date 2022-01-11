@@ -16,7 +16,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const connectionString = "mongodb+srv://brent:<password>@makeschool.sft8a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const connectionString = "mongodb+srv://brent:roxxy@makeschool.sft8a.mongodb.net/test?retryWrites=true&w=majority"
 
 const dbName = "test"
 
@@ -24,7 +24,7 @@ const collName = "todolist"
 
 var collection *mongo.Collection
 
-func dbInit(){
+func init(){
 	clientOptions :=options.Client().ApplyURI(connectionString)
 
 	client, err := mongo.Connect(context.TODO(),clientOptions)
@@ -46,12 +46,11 @@ func dbInit(){
 }
 
 //GetAllTask get all the tasks route
-func GetAllTask(w http.Response,r *http.Request)  {
-	w.Header.Set("Context-Type","application/x-www-form-urlencoded")
-	w.Header.Set("Access-Control-Allow-Origin","*")
+func GetAllTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	payload := getAllTask()
 	json.NewEncoder(w).Encode(payload)
-
 }
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+
 )
 
 func main()  {
@@ -14,13 +15,10 @@ func main()  {
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
-func homePageHandler(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintf(w, "hello world")
-	checkError(err)
-}
 
-func checkError(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
-}
+
+//func checkError(err error) {
+//	if err != nil {
+//		log.Panic(err)
+//	}
+//}
