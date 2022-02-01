@@ -9,14 +9,14 @@ import (
 
 	"backend/models"
 	"github.com/gorilla/mux"
-
+	//"backend/Searching"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const connectionString = "mongodb+srv://brent:roxxy@makeschool.sft8a.mongodb.net/test?retryWrites=true&w=majority"
+const connectionString = "mongodb+srv://brent:roxxy@cluster0.sft8a.mongodb.net/test?retryWrites=true&w=majority"
 
 const dbName = "test"
 
@@ -52,6 +52,14 @@ func GetAllTask(w http.ResponseWriter, r *http.Request) {
 	payload := getAllTask()
 	json.NewEncoder(w).Encode(payload)
 }
+
+//// KmpSearch
+//func KmpSearch(w http.ResponseWriter, r *http.Request) {
+//	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+//	w.Header().Set("Access-Control-Allow-Origin", "*")
+//	payload := kmpSearch(pattern)
+//	json.NewEncoder(w).Encode(payload)
+//}
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
@@ -148,6 +156,7 @@ func insertOneTask(task models.ToDoList) {
 	}
 
 	fmt.Println("Inserted a Single Record ", insertResult.InsertedID)
+	printAll()
 }
 
 // task complete method, update task's status to true
@@ -177,6 +186,72 @@ func undoTask(task string) {
 
 	fmt.Println("modified count: ", result.ModifiedCount)
 }
+
+//func bmSearch(substr string){
+//	//get all of the tasks
+//	//strings := bson.M{"task":task}
+//
+//	filter := bson.M{"Task": true}
+//	tasks , err := collection.Distinct(context.Background(),"Task",filter)
+//	fmt.Println(tasks)
+//
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	table := Searching.CalculateSlideTable(substr)
+//	t := fmt.Sprintf("%v",tasks)
+//	//to string conversion
+//	strTask :=  make([]string{},len(tasks))
+//	for i,v := range tasks{
+//		strTask[i] = v
+//	}
+//
+//	for i,v := range strTask {
+//		if pos := Searching.IndexWithTable(&table, strTask[i], substr); pos > -1 {
+//			fmt.Println("Found in position: ", pos)
+//			print("found substr in task: ", t)
+//
+//		}
+//	}
+
+// need to  range loop over docs so i can get each task
+func printAll() []bson.M{
+	cursor,err := collection.Find(context.Background(),bson.M{})
+	var docs []bson.M
+	for cursor.Next(context.Background()) {
+		var document bson.M
+		err = cursor.Decode(&document)
+		if err != nil {
+			log.Println(err)
+		}
+		docs = append(docs, document)
+		fmt.Println(docs[i]["task"])
+	}
+	return docs
+
+
+}
+
+//func kmpSearch(pattern string) bson.M{
+//	cursor,err := collection.Find(context.Background(),bson.M{})
+//
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	var data  = bson.M{}
+//	if err = cursor.All(context.Background(),&data);err != nil{
+//		log.Fatal(err)
+//	}
+//	Searching.Knp(bson.M{"task":"hello"},pattern string)
+//
+//
+//}
+
+
+
+
+
+//}
 
 // delete one task from the DB, delete by ID
 func deleteOneTask(task string) {

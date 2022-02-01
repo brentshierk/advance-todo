@@ -1,9 +1,9 @@
 package Searching
 
-func Index(s string, substr string) int {
-d := CalculateSlideTable(substr)
-return IndexWithTable(&d, s, substr)
-}
+//func Index(s string, substr string) int {
+//d := CalculateSlideTable(substr)
+//return IndexWithTable(&d, s, substr)
+//}
 
 // IndexWithTable returns the first index substr found in the s.
 // It needs the slide information of substr
@@ -11,17 +11,7 @@ func IndexWithTable(d *[256]int, s string, substr string) int {
 lsub := len(substr)
 ls := len(s)
 // fmt.Println(ls, lsub)
-switch {
-case lsub == 0:
-return 0
-case lsub > ls:
-return -1
-case lsub == ls:
-if s == substr {
-return 0
-}
-return -1
-}
+
 
 i := 0
 for i+lsub-1 < ls {
